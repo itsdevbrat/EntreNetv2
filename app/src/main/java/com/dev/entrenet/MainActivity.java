@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
         //Setting Layout for sign in screen
         AuthMethodPickerLayout customLayout = new AuthMethodPickerLayout
                 .Builder(R.layout.signin_ui)
-                .setGoogleButtonId(R.id.google)
-                .setFacebookButtonId(R.id.facebook)
+                .setGoogleButtonId(R.id.facebook)
+                .setFacebookButtonId(R.id.google)
                 .build();
 
         //Authentication Starts

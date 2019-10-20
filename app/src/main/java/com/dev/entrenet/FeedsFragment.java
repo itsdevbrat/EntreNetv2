@@ -63,7 +63,7 @@ public class FeedsFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       return inflater.inflate(R.layout.fragment_feeds, null);
+        return inflater.inflate(R.layout.fragment_feeds, null);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class FeedsFragment extends Fragment {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult != null) {
-                    Log.d("devbrat","Got Location");
+                    Log.d("devbrat", "Got Location");
                 }
             }
         };
@@ -105,15 +105,8 @@ public class FeedsFragment extends Fragment {
         LocationManager manager = (LocationManager) getActivity().getSystemService(HomeActivity.LOCATION_SERVICE);
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             turnGpsOn();
-            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    displayPosts(location);
-                }
-            });
-        }else{
-            Log.d("devbrat","GPS is on");
+        } else {
+            Log.d("devbrat", "GPS is on");
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
@@ -160,7 +153,7 @@ public class FeedsFragment extends Fragment {
     }
 
     private void displayPosts(final Location userLocation) {
-        Log.d("devbrat","in display posts");
+        Log.d("devbrat", "in display posts");
 
         postsRef.addValueEventListener(new ValueEventListener() {
             @Override

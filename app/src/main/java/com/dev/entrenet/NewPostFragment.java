@@ -21,62 +21,61 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-
 public class NewPostFragment extends Fragment {
 
-  private EditText posttitle,postdesc;
-  private FirebaseAuth auth;
-  private DatabaseReference db;
-  private Button postbutton;
-  private FusedLocationProviderClient fusedLocationClient;
-  private double latitude;
-  private double longitude;
-  private AlphaAnimation animation1;
+    private EditText posttitle, postdesc;
+    private FirebaseAuth auth;
+    private DatabaseReference db;
+    private Button postbutton;
+    private FusedLocationProviderClient fusedLocationClient;
+    private double latitude;
+    private double longitude;
+    private AlphaAnimation animation1;
 
     @Nullable
-  @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_new_post, null);
-  }
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_new_post, null);
+    }
 
-  @Override
-  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-    fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-    fusedLocationClient.getLastLocation()
-            .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-              @Override
-              public void onSuccess(Location location) {
-                  if(location!= null){
-                      latitude = location.getLatitude();
-                      longitude = location.getLongitude();
-                  }
-              }
-            });
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                        }
+                    }
+                });
 
-    db = FirebaseDatabase.getInstance().getReference();
-    auth = FirebaseAuth.getInstance();
-    posttitle = (EditText) getView().findViewById(R.id.posttitle);
-    postdesc = (EditText) getView().findViewById(R.id.postdesc);
-    postbutton = (Button) getView().findViewById(R.id.postbutton);
+        db = FirebaseDatabase.getInstance().getReference();
+        auth = FirebaseAuth.getInstance();
+        posttitle = (EditText) getView().findViewById(R.id.posttitle);
+        postdesc = (EditText) getView().findViewById(R.id.postdesc);
+        postbutton = (Button) getView().findViewById(R.id.postbutton);
 
-      animation1 = new AlphaAnimation(0.2f, 1.0f);
-      animation1.setDuration(1000);
-      animation1.setStartOffset(5000);
-      animation1.setFillAfter(true);
+        animation1 = new AlphaAnimation(0.2f, 1.0f);
+        animation1.setDuration(1000);
+        animation1.setStartOffset(5000);
+        animation1.setFillAfter(true);
 
-    postbutton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-          postbutton.startAnimation(animation1);
-        Post post = new Post(auth.getCurrentUser().getDisplayName(),posttitle.getText().toString(),postdesc.getText().toString(),auth.getCurrentUser().getPhotoUrl().toString(),latitude,longitude,auth.getCurrentUser().getEmail(),auth.getCurrentUser().getUid());
-        db.child("Posts").push().setValue(post);
-        Fragment feedsFragment = new FeedsFragment();
-        getFragmentManager().beginTransaction().replace(R.id.feedsfragment,feedsFragment).commit();
-        posttitle.setText("");
-        postdesc.setText("");
-      }
-    });
-  }
+        postbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postbutton.startAnimation(animation1);
+                Post post = new Post(auth.getCurrentUser().getDisplayName(), posttitle.getText().toString(), postdesc.getText().toString(), auth.getCurrentUser().getPhotoUrl().toString(), latitude, longitude, auth.getCurrentUser().getEmail(), auth.getCurrentUser().getUid());
+                db.child("Posts").push().setValue(post);
+                Fragment feedsFragment = new FeedsFragment();
+                getFragmentManager().beginTransaction().replace(R.id.feedsfragment, feedsFragment).commit();
+                posttitle.setText("");
+                postdesc.setText("");
+            }
+        });
+    }
 }
